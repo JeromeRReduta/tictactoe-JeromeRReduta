@@ -1,7 +1,7 @@
 
 PROJECT 2
 
-NAME:
+NAME: Jerome Reduta
 
 DATE OF COMPLETION:
 
