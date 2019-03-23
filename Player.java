@@ -13,8 +13,9 @@ To do:
 public class Player {
 	// INSTANCE DATA: name, wins, losses
 	private String name;
-	private int wins;
-	private int losses;
+	private int wins = 0;
+	private int losses = 0;
+	private int ties = 0;
 
 
 	//CONSTRUCTOR
@@ -36,6 +37,11 @@ public class Player {
 	public void lose()
 	{
 		losses += 1;
+	}
+
+	public void tie()
+	{
+		ties += 1;
 	}
 
 	// Getters and setters
