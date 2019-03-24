@@ -49,6 +49,7 @@ public class Player {
 			Name
 			Wins
 			Losses
+			Ties
 		Not changeable:
 			N/A
 	*/
@@ -88,9 +89,21 @@ public class Player {
 		}
 	}
 
+	public void getTies()
+	{
+		reutrn ties;
+	}
+
+	public void setTies(int inputTies)
+	{
+		if (inputTies >= 0) {
+			ties = inputTies;
+		}
+	}
+
 	public String toString()
 	{
-		return "Player " + name + " - W/L: " + wins + "/" + losses;
+		return "Player " + name + " - W/L/T: " + wins + "/" + losses + "/" + ties;
 	}
 
 	// Demo

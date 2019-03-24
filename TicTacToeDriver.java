@@ -2,15 +2,16 @@ import java.util.*;
 
 public class TicTacToeDriver {
 
+	// Makes 2 players, assigns them to playerList in random order, returns player list
 	public static Player[] makePlayers(Scanner scan, Random rng) {
 		Player[] players = new Player[2];
 
 		int choice = rng.nextInt(2);
 
-		System.out.println("Who is player 1?");
+		System.out.print("Enter player 1 name: ");
 		players[choice] = new Player(scan.nextLine());
 
-		System.out.println("Who is player 2?");
+		System.out.print("\n\nEnter player 2 name: ");;
 		players[1-choice] = new Player(scan.nextLine());
 
 		System.out.println(players[0].getName() + " goes 1st.\n" + players[1].getName() + " goes 2nd.");
@@ -18,63 +19,66 @@ public class TicTacToeDriver {
 		return players;
 	}
 
-	public static int playGame(Scanner scan, TicTacToe board, Player[] players) {
+	// Plays TicTacToe
+	public static void playGame(Scanner scan, TicTacToe board, Player[] players) {
+
+		// Loop keeps track of who won
+		// 0 = No one yet | 1 = p1 wins | 2 = p2 wins | -1 = tie
+		// Game loops until win or tie
 
 		int loop = 0;
 		int count = 0;
+
+		System.out.println(board + "\n");
+		
 		while (loop == 0) {
-			count = count%2;
-
+		
+			// Each player has one turn (i.e. two players don't have same turn #)
 			System.out.println("TURN " + board.getTurnNum() + ":");
-			System.out.println(players)
+			System.out.println(players[count].getName() + "'s turn:");
 
-			System.out.println(players[count].getName() + "'s")
+			board.changeBoard(count+1);
+			loop = board.checkForEnd(count + 1);
+			System.out.println("\n\n\n\n\n" + board);
 
-			for (int index = 0; index < 2; index++) {
-				System.out.println(players[index].getName() + "'s turn:");
-				System.out.println(board + "\n");
-				System.out.println("Enter row #: ");
-				int rowNum = scan.nextInt();
+			// Count alternates btwn 0 and 1 - players alternates btwn 1st and 2nd player
+			count = (count+1)%2;
+		}
 
-				System.out.println("Enter column #: ");
-				int colNum = scan.nextInt();
+		// Prints end message based on who won, once game has ended
+		System.out.println(board.endMessage(players, loop));
+	}
 
-				board.changeBoard(index + 1, rowNum - 1, colNum - 1);
+	// Shows results, and asks if users want to play again
+	public static int showResults(Scanner scan, Player[] players) {
+		System.out.println(players[0] + "\n" + players[1]);
 
-				loop = board.checkForEnd(index + 1);
+		System.out.println("Play again? [1] Yes [2] No");
 
-				if (loop != 0) {
-					break;
-				}
+		return scan.nextInt();
 
-				// The for loop is screwing this up - p2 can win, and it'll
-				// be recorded b/c it's @ end of for loop
-				// But if p1 wins, then loops to p2, and if p2 hasn't won
-				// loop get reset to 0
-				System.out.println(loop);
-			}
-			}
-
-			board.endMessage(players, loop);
-
-			
-	
-		return 1;
 
 	}
 
+	// Program
 	public static void main(String[] args) {
 
 		Scanner scan = new Scanner(System.in);
 		Random rng = new Random();
 
-		TicTacToe board = new TicTacToe();
-
 		Player[] players = makePlayers(scan, rng);
 
-		playGame(scan, board, players);
+		// Loops until players choose not to play again
+		int loop = 1;
 
-		
+		// Note: program makes fresh TicTacToe board every loop, but players stay the same
+		while (loop == 1) {
 
+			TicTacToe board = new TicTacToe();
+
+			playGame(scan, board, players);
+
+			loop = showResults(scan, players);
+		}
 	}
 }

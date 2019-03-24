@@ -17,58 +17,84 @@ To do:
 
 import java.util.*;
 public class TicTacToe
+
+	//INSTANCE DATA
 {
+	// P1 uses "X", P2 uses "O", blank otherwise (when space not claimed)
 	private static String[] symbols = new String[] {" ", "X", "O"};
+
+	// Top row
 	private int upperLeft = 0;
 	private int upperMiddle = 0;
 	private int upperRight = 0;
 
+	// Middle row
 	private int middleLeft = 0;
 	private int center = 0;
 	private int middleRight = 0;
 
+	// Bottom row
 	private int lowerLeft = 0;
 	private int lowerMiddle = 0;
 	private int lowerRight = 0;
 
-	private Scanner scanner = new Scanner(System.in);
+	// Scanner
+	private Scanner scan = new Scanner(System.in);
 
+	// Turn counter
 	private int turnNum = 1;
 
+	// Board
 	private int[][] board;
 
-	//INSTANCE DATA
+
 
 	//CONSTRUCTOR
 	public TicTacToe()
 	{
+
+		// Fills board w/ each value from each row
 		board = new int[][] {{upperLeft, upperMiddle, upperRight},
 				{middleLeft, center, middleRight},
 				{lowerLeft, lowerMiddle, lowerRight}};
-
 	}
 
 	//METHODS
 
-	// Given p#, row#, and col#, changes board state to match (Note: looping will be done in driver)
-	public void changeBoard(int pNum, int rowNum, int colNum) {
+	// Marks an inputted row and column with the player's symbol
+	// P1 = "X", P2 = "O";
+	public void changeBoard(int pNum) {
 
-	
+			int rowNum;
+			int colNum;
 
-		if (board[rowNum][colNum] == 0) {
-				
-			board[rowNum][colNum] = pNum;				
-			turnNum++;
-		}
-		
-		else {
-			System.out.println("Choose an empty spot!");
-}
+			// Loops until valid #s given and space is unclaimed
+			boolean loop = true;
 
-	
-}
+			while (loop) {
+				System.out.println("\n\nPick an empty spot: ");
 
+				System.out.println("Enter row #: ");
+				rowNum = scan.nextInt()-1;
+
+				System.out.println("Enter column #: ");
+				colNum = scan.nextInt()-1;
+
+				// For some reason, game breaks if you input rowNum = 4, colNum = 4
+				// This does not work with higher #s, or if only one num is 4
+				if (rowNum >= 1 && rowNum <= 3 && colNum >= 1 && colNum <= 3 && board[rowNum][colNum] == 0) {
+						
+					board[rowNum][colNum] = pNum;				
+					turnNum++;
+					loop = false;
+				}
+		}	
+	}
+
+	// Checks if game is over
 	public int checkForEnd(int pNum) {
+
+		// Case: Three in row, horizontal
 		for (int index = 0; index < 3; index ++) {
 			if (board[index][0] == pNum && board[index][1] == pNum && board[index][2] == pNum) {
 				System.out.println("Yea");
@@ -76,43 +102,27 @@ public class TicTacToe
 			}
 		}
 
+		// Case: Three in row, vertical
 		for (int index = 0; index < 3; index ++) {
 			if (board[0][index] == pNum && board[1][index] == pNum && board[2][index] == pNum) {
 				return pNum;
 			}
 		}
 
+		// Case: Three in row, diagonal
 		for (int index = 0; index <= 2; index += 2) {
 			if (board[0][index] == pNum && board[1][1] == pNum && board[2][2-index] == pNum) {
 				return pNum;
 			}
 		}
 
+		// Case: Tie (Board is full, no winner)
 		if (turnNum == 10) {
 			return -1;
 		}
 
+		// Case: Unclaimed spaces left, no winner (game continues)
 		return 0;
-	}
-
-	public int getTurnNum() {
-		return turnNum;
-	}
-
-	public String toString()
-	{
-	   String output = "\n-------------\n";
-
-		for (int index = 0; index < board.length; index++) {
-			output += "| ";
-
-			for (int i = 0; i < board[index].length; i++) {
-				output += symbols[board[index][i]] + " | ";
-			}
-			output += "\n-------------\n";
-		}
-		
-		return output;
 	}
 
 	public String endMessage(Player[] players, int endNum) {
@@ -125,12 +135,44 @@ public class TicTacToe
 		}
 		
 		else {
-			players[endNum-1].tie();
-			players[endNum].tie();
+			players[0].tie();
+			players[1].tie();
 			return "Tie!";
 		}
 	}
 
+	// Getters and Setters
+
+	/* Changeable:
+		N/A
+	*/
+
+	public int getTurnNum() {
+		return turnNum;
+	}
+
+	public int[][] getBoard() {
+		return board;
+	}
+
+	// Changes #s to symbols of corresponding user, returns a TicTacToe board
+	public String toString()
+	{
+	   String output = "\n-------------\n";
+
+		for (int index = 0; index < board.length; index++) {
+			output += "| ";
+
+			for (int i = 0; i < board[index].length; i++) {
+				output += symbols[board[index][i]] + " | ";
+			}
+			output += "\n-------------\n";
+		}
+		return output;
+	}
+
+	
+	// Demo
 	/*public static void main(String[] args)
 	{
 
