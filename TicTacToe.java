@@ -82,7 +82,7 @@ public class TicTacToe
 
 				// For some reason, game breaks if you input rowNum = 4, colNum = 4
 				// This does not work with higher #s, or if only one num is 4
-				if (rowNum >= 1 && rowNum <= 3 && colNum >= 1 && colNum <= 3 && board[rowNum][colNum] == 0) {
+				if (rowNum >= 0 && rowNum <= 2 && colNum >= 0 && colNum <= 2 && board[rowNum][colNum] == 0) {
 						
 					board[rowNum][colNum] = pNum;				
 					turnNum++;

@@ -89,9 +89,9 @@ public class Player {
 		}
 	}
 
-	public void getTies()
+	public int getTies()
 	{
-		reutrn ties;
+		return ties;
 	}
 
 	public void setTies(int inputTies)
